@@ -158,23 +158,23 @@ graph TD
         BlurEngine["sharp\n(Gaussian Blur Privacy Filter)"]
         Queue["Local Disk Queue\n(~/.config/omerp-screenshot-queue/*.json)"]
 
-        UI <-->|contextBridge / IPC| Preload
-        Preload <-->|ipcRenderer / ipcMain| Main
-        Tracker -->|getCurrentApp() & domain| Main
-        Activity -->|batch input counts| Main
-        Main -->|desktopCapturer.getSources| BlurEngine
-        BlurEngine -->|if sensitive / hit -> blur(45)| Main
-        Main -->|if offline| Queue
-        Queue -->|retry drain on network restored| Main
+        UI <-->|"contextBridge / IPC"| Preload
+        Preload <-->|"ipcRenderer / ipcMain"| Main
+        Tracker -->|"getCurrentApp() & domain"| Main
+        Activity -->|"batch input counts"| Main
+        Main -->|"desktopCapturer.getSources"| BlurEngine
+        BlurEngine -->|"if sensitive / hit -> blur(45)"| Main
+        Main -->|"if offline"| Queue
+        Queue -->|"retry drain on network restored"| Main
     end
 
     subgraph "Backend Application & Storage Layer"
         APIs["TanStack Start API Routes\n(/api/public/agent.*)"]
         PG["PostgreSQL 16 (Row-Level Security)"]
         
-        Main -->|POST /api/public/agent.screenshots| APIs
-        Main -->|POST /api/public/agent.activity| APIs
-        APIs <-->|Drizzle ORM (tenant context)| PG
+        Main -->|"POST /api/public/agent.screenshots"| APIs
+        Main -->|"POST /api/public/agent.activity"| APIs
+        APIs <-->|"Drizzle ORM (tenant context)"| PG
     end
 ```
 
